@@ -1,5 +1,7 @@
 # Практичні завдання з Ruby
 
+[![tests](https://github.com/pavlohavras73/ruby-labs/actions/workflows/tests.yml/badge.svg)](https://github.com/pavlohavras73/ruby-labs/actions/workflows/tests.yml)
+
 **Студент:** Гаврась Павло (Pavlo Havras), група КС-31  
 **Викладач:** Богдан Паршенцев (Bohdan Parshentsev)  
 **Середовище виконання:** Ruby 3.2+ (перевірено на 3.2.3 і 3.4.10; без сторонніх гемів, для тестів — Minitest)
@@ -9,7 +11,7 @@
 ## Структура проєкту
 
 ```text
-work/
+ruby-labs/
 ├── 01_word_stats.rb          # Завдання 1: Статистика слів у тексті
 ├── 02_guess_number.rb        # Завдання 2: Гра «Вгадай число»
 ├── 03_rock_paper_scissors.rb # Завдання 3: Гра «Камінь, ножиці, папір»
@@ -32,20 +34,25 @@ work/
 
 ## Запуск завдань
 
-Кожен файл можна запустити напряму з кореневої папки проєкту (`~/ruby-labs`):
+Кожен файл запускається з кореня репозиторію:
+
+```bash
+git clone https://github.com/pavlohavras73/ruby-labs.git
+cd ruby-labs
+```
 
 ### 1. Статистика слів (`01_word_stats.rb`)
 ```bash
-ruby work/01_word_stats.rb
+ruby 01_word_stats.rb
 ```
 Або через передачу рядка:
 ```bash
-printf "Ruby is fun and ruby is powerful\n" | ruby work/01_word_stats.rb
+printf "Ruby is fun and ruby is powerful\n" | ruby 01_word_stats.rb
 ```
 
 ### 2. Гра «Вгадай число» (`02_guess_number.rb`)
 ```bash
-ruby work/02_guess_number.rb
+ruby 02_guess_number.rb
 ```
 - Комп'ютер загадує число від 1 до 100.
 - Програма підказує «більше», «менше» або «вгадано».
@@ -53,7 +60,7 @@ ruby work/02_guess_number.rb
 
 ### 3. Гра «Камінь, ножиці, папір» (`03_rock_paper_scissors.rb`)
 ```bash
-ruby work/03_rock_paper_scissors.rb
+ruby 03_rock_paper_scissors.rb
 ```
 - Вибір ходу: `1` (Камінь), `2` (Ножиці), `3` (Папір) або введенням тексту (`камінь`, `ножиці`, `папір`).
 - Вихід з гри: `0`, `вихід` або `exit`.
@@ -62,7 +69,7 @@ ruby work/03_rock_paper_scissors.rb
 
 ### 4. Пиріг з родзинками (`04_raisin_cake.rb`)
 ```bash
-ruby work/04_raisin_cake.rb
+ruby 04_raisin_cake.rb
 ```
 - Запускає демонстрацію розрізання для обох прикладів із завдання (приклад 1: 4 горизонтальні смуги; приклад 2: форма 2×6 та три 6×2).
 - Метод `cut(cake)` реалізований через бектрекінг: обхід першої незайнятої клітинки зверху-зліва та перебір прямокутників потрібної площі (де рівно одна родзинка), **ширші варіанти перевіряються першими**.
@@ -70,7 +77,7 @@ ruby work/04_raisin_cake.rb
 
 ### 5. Гра «Судоку 4×4» (`05_sudoku.rb`)
 ```bash
-ruby work/05_sudoku.rb
+ruby 05_sudoku.rb
 ```
 - Поле 4×4 з блоками 2×2, задане в коді з гарантованим єдиним розв'язком.
 - Введення ходу: `<рядок> <стовпець> <число>` (наприклад: `1 2 4`).
@@ -84,7 +91,7 @@ ruby work/05_sudoku.rb
 
 ### 6. Гра «Морський бій» (`06_sea_battle.rb`)
 ```bash
-ruby work/06_sea_battle.rb
+ruby 06_sea_battle.rb
 ```
 - Меню: `1` — нова гра, `2` — правила, `3` — статистика, `0` — вихід.
 - Поле 10×10 (стовпці A–J, рядки 1–10). На екрані два поля: своє (видно кораблі) і поле комп'ютера (видно лише влучання `X` і промахи `•`).
@@ -112,19 +119,19 @@ ruby work/06_sea_battle.rb
 
 ## Запуск тестів (Minitest)
 
-Усі тести написані з використанням стандартної бібліотеки `Minitest` і проходять без попереджень (`ruby -w`).
+Усі тести написані з використанням стандартної бібліотеки `Minitest` і проходять без попереджень (`ruby -w`). Вони автоматично запускаються на GitHub Actions (Ruby 3.2 і 3.4) після кожного push.
 
 ### Запуск усіх тестів разом:
 ```bash
-ruby -w -Iwork work/test/all_tests.rb
+ruby -w test/all_tests.rb
 ```
 
 ### Запуск окремих тестових файлів:
 ```bash
-ruby -w -Iwork work/test/test_01_word_stats.rb
-ruby -w -Iwork work/test/test_02_guess_number.rb
-ruby -w -Iwork work/test/test_03_rock_paper_scissors.rb
-ruby -w -Iwork work/test/test_04_raisin_cake.rb
-ruby -w -Iwork work/test/test_05_sudoku.rb
-ruby -w -Iwork work/test/test_06_sea_battle.rb
+ruby -w test/test_01_word_stats.rb
+ruby -w test/test_02_guess_number.rb
+ruby -w test/test_03_rock_paper_scissors.rb
+ruby -w test/test_04_raisin_cake.rb
+ruby -w test/test_05_sudoku.rb
+ruby -w test/test_06_sea_battle.rb
 ```
