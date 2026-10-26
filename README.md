@@ -2,7 +2,7 @@
 
 **Студент:** Гаврась Павло (Pavlo Havras), група КС-31  
 **Викладач:** Богдан Паршенцев (Bohdan Parshentsev)  
-**Середовище виконання:** Ruby 3.2.3 (без сторонніх гемів, стандартна бібліотека Minitest)
+**Середовище виконання:** Ruby 3.2+ (перевірено на 3.2.3 і 3.4.10; без сторонніх гемів, для тестів — Minitest)
 
 ---
 
@@ -15,13 +15,16 @@ work/
 ├── 03_rock_paper_scissors.rb # Завдання 3: Гра «Камінь, ножиці, папір»
 ├── 04_raisin_cake.rb         # Завдання 4: Розрізання пирога з родзинками (Cut the cake)
 ├── 05_sudoku.rb              # Завдання 5: Гра «Судоку 4×4» з підказками та скасуванням
+├── 06_sea_battle.rb          # Завдання 6: Гра «Морський бій» (точка входу)
+├── sea_battle/               # Модулі гри «Морський бій» (класи поля, кораблів, гри, меню…)
 ├── test/                     # Набір модульних тестів (Minitest)
 │   ├── all_tests.rb          # Запуск усіх тестів однією командою
 │   ├── test_01_word_stats.rb
 │   ├── test_02_guess_number.rb
 │   ├── test_03_rock_paper_scissors.rb
 │   ├── test_04_raisin_cake.rb
-│   └── test_05_sudoku.rb
+│   ├── test_05_sudoku.rb
+│   └── test_06_sea_battle.rb
 └── README.md                 # Документація та інструкція із запуску
 ```
 
@@ -79,6 +82,32 @@ ruby work/05_sudoku.rb
   - `s` / `stats` — перегляд статистики успішних ходів, помилок і скасувань.
   - `q` / `exit` — вихід з гри.
 
+### 6. Гра «Морський бій» (`06_sea_battle.rb`)
+```bash
+ruby work/06_sea_battle.rb
+```
+- Меню: `1` — нова гра, `2` — правила, `3` — статистика, `0` — вихід.
+- Поле 10×10 (стовпці A–J, рядки 1–10). На екрані два поля: своє (видно кораблі) і поле комп'ютера (видно лише влучання `X` і промахи `•`).
+- Флот розставляється автоматично: 1×4, 2×3, 3×2, 4×1. Кораблі не перетинаються і не торкаються, навіть по діагоналі.
+- Постріл — координата на кшталт `B7` або `J10`. Після пострілу гра повідомляє: промах, влучання або «корабель знищено». Влучили — стріляєте ще раз.
+- Комп'ютер стріляє лише в нові клітинки: спочатку випадково, після влучання добиває корабель уздовж лінії.
+- Некоректні координати, повторний постріл, порожній рядок, кінець введення і Ctrl+C не завершують програму аварійно.
+- Статистика перемог і поразок зберігається між запусками у файлі `~/.sea_battle_stats.json`.
+
+Структура коду (модуль `SeaBattle`, файли підключаються через `require_relative`):
+
+| Файл | Що в ньому |
+|---|---|
+| `sea_battle/errors.rb` | власні помилки: `SeaBattle::Error` → `InvalidCoordinateError`, `AlreadyShotError`, `PlacementError` |
+| `sea_battle/coordinate.rb` | клас `Coordinate`: розбір «A5» з `raise InvalidCoordinateError`, сусідні клітинки |
+| `sea_battle/ship.rb` | клас `Ship`: клітинки, влучання, `sunk?` |
+| `sea_battle/board.rb` | клас `Board`: розстановка флоту, перевірка правил, обробка пострілу |
+| `sea_battle/computer_player.rb` | клас `ComputerPlayer`: вибір пострілу без повторів |
+| `sea_battle/statistics.rb` | клас `Statistics`: перемоги/поразки, збереження в JSON |
+| `sea_battle/renderer.rb` | клас `Renderer`: виведення двох полів |
+| `sea_battle/game.rb` | клас `Game`: партія, ходи, `rescue` помилок введення |
+| `sea_battle/menu.rb` | клас `Menu`: головне меню |
+
 ---
 
 ## Запуск тестів (Minitest)
@@ -97,4 +126,5 @@ ruby -w -Iwork work/test/test_02_guess_number.rb
 ruby -w -Iwork work/test/test_03_rock_paper_scissors.rb
 ruby -w -Iwork work/test/test_04_raisin_cake.rb
 ruby -w -Iwork work/test/test_05_sudoku.rb
+ruby -w -Iwork work/test/test_06_sea_battle.rb
 ```
